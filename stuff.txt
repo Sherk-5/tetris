@@ -1,0 +1,43 @@
+FPSs:
+    usleep(1000000); // 1 second  → ~1 FPS
+    usleep(500000);  // 0.5 sec   → ~2 FPS
+    usleep(100000);  // 0.1 sec   → ~10 FPS
+    usleep(50000);   // 0.05 sec  → ~20 FPS
+    usleep(16000);   // 0.016 sec → ~60 FPS
+    usleep(8000);    // 0.008 sec → ~125 FPS
+
+Tetris Matrix:
+    20 linhas x 10 colunas
+     screen: 24 x 14
+
+Chars:
+    full cell: █
+        ░	Light shade
+        ▒	Medium shade
+        ▓	Dark shade
+        ▌   Left half
+        ▐   Right Half
+
+    center square: ■
+        ▀   top square
+        ▄   bottom square
+        □   center square outline
+        ▪   center small square
+
+Cores:
+    \033[30m	Black
+    \033[31m	Red
+    \033[32m	Green
+    \033[33m	Yellow
+    \033[34m	Blue
+    \033[35m	Magenta
+    \033[36m	Cyan
+    \033[37m	White
+    \033[0m	    Reset
+
+To-dos:
+    - github 
+    - fazer matrix mesmos do tetris para organizar como os blocos vão cair e se encaixar e ser animados
+    - score counter
+    - tetromino para guardar
+    
