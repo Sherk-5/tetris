@@ -6,11 +6,14 @@
 #define HEIGHT 24
 
 extern int posx, posy;
+extern char matrix[22][12];
 
 void clear_screen(); // clears the terminal screen
+void matrix_init(char m[22][12]); // initiates tetris matrix
 void paint_bg_black(); // paints the screen in black
 void draw_in_pos(int x, int y,char* s); // prints chars in a certain position
-void draw_matrix_bg(); // draws tetris matrix box
+void draw_matrix(); // draws tetris matrix box
 void draw_frame(); // draws entire frame
+
 
 #endif
