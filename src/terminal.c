@@ -6,13 +6,29 @@
 
 
 
-
+/* strcut termios:
+    - input settings
+    - output settings
+    - controll settings
+    - local settings
+*/
 static struct termios og_terminal; // "struct termios" gerida só por terminal.c
 
 void terminal_init(void)
 {
     /* gurda estado/configurações originais do terminal em "og_terminal" */
     tcgetattr(STDIN_FILENO, &og_terminal);
+}
+
+void terminal_enable_raw_mode(void)
+{
+    struct termios raw_terminal = og_terminal; // novo estado de terminal (raw mode)
+    /* c_lflag: 
+        - ICANON -> modo de input canónico (terminal trabalha por linhas -> programa recebe depois de um enter)
+        - ECHO -> terminal faz echo/mostra o que o user escreve
+    */
+    raw_terminal.c_lflag &= ~(ECHO | ICANON); // operação bitwise com AND, OR e inversão de bits -> anula ICANON e ECHO
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw_terminal); // atualização terminal para raw mode
 }
 
 void terminal_cleanup(void)

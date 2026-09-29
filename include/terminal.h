@@ -2,6 +2,7 @@
 #define TERMINAL_H
 
 void terminal_init(void);
+void terminal_enable_raw_mode(void);
 void terminal_cleanup(void);
 
 void terminal_clear(void);

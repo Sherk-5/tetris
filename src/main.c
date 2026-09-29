@@ -5,6 +5,7 @@
 int main(void)
 {
     terminal_init();
+    terminal_enable_raw_mode();
 
     terminal_clear();
     terminal_hide_cursor();
