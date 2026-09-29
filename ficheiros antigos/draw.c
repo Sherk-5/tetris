@@ -14,7 +14,7 @@
     // f = "██"
     // 3 = "▆"
     // 1 = "▂"
-*/q
+*/
 char matrix[22][12] = { // tetris matrix + borders
                         { 'b' , 'b' , 'b' ,  'b' ,  'b' ,  'b' ,  'b' ,  'b' ,  'b' ,  'b' ,  'b' ,  'b' },     // top row
                         { 'l' , 'e' , 'e' ,  'e' ,  'e' ,  'e' ,  'e' ,  'e' ,  'e' ,  'e' ,  'e' ,  'l' },     // 1º

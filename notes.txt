@@ -1,0 +1,32 @@
+COMANDOS RECORRENTES
+
+
+TO-DOS:
+    -limpar terminal
+    -mover / esconder cursor
+    -imprimir char em posição específica
+    -impedir que terminal faça echo do teclado
+    -colocar o terminal em raw/non-canonical mode
+    - restaurar terminal no fim do programa
+
+ARQUITETURA BASE:
+    1A) input
+        -teclado
+
+    1B) game / state
+        -posições
+        -pontuações
+    
+    2) update (após 1A + 1B)
+        -fisica
+        -colisoes
+        -algoritmos random
+        -logicas do tetris
+
+    3) framebuffer (após 2)
+        -construir representação da imagem
+    
+    4) render (após o 3)
+        -pintar conteudo do framebuffer no terminal
+        -esperar e sincronizar
+
