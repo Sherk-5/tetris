@@ -1,5 +1,7 @@
 COMANDOS RECORRENTES
-
+git add .
+git commit -m "comentario"
+git push
 
 TO-DOS:
     -limpar terminal
@@ -8,6 +10,19 @@ TO-DOS:
     -impedir que terminal faça echo do teclado
     -colocar o terminal em raw/non-canonical mode
     - restaurar terminal no fim do programa
+
+ANSI ESCAPE SEQUENCES
+
+"\033[2J"
+    - limpar o ecrã
+    - "\033"-> char ESC
+    - [2J é interpretado pelo terminal
+"\033[H"
+    - coloca o cursor no inicio
+"\033[?25l"
+    -esconde cursor
+"\033[?25h"
+    - mostra o cursor
 
 ARQUITETURA BASE:
     1A) input
