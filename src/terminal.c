@@ -2,6 +2,7 @@
 
 #include <unistd.h> // funções POSIX relacionadas ao SO: write(); STDOUT_FILENO; ssize_t?
 #include <termios.h> // API POSIX para configurar atributos e comportamentos do terminal
+//#include <signal.h> // permite lidar com Cntrl+C / SIGNIT 
 
 
 
@@ -23,11 +24,19 @@ void terminal_init(void)
 void terminal_enable_raw_mode(void)
 {
     struct termios raw_terminal = og_terminal; // novo estado de terminal (raw mode)
+
     /* c_lflag: 
         - ICANON -> modo de input canónico (terminal trabalha por linhas -> programa recebe depois de um enter)
         - ECHO -> terminal faz echo/mostra o que o user escreve
     */
     raw_terminal.c_lflag &= ~(ECHO | ICANON); // operação bitwise com AND, OR e inversão de bits -> anula ICANON e ECHO
+    /* c_cc
+        - VMIN -> indica se é necessário esperar por um charecter do teclado para dar input (congela o terminal)
+        - VTIME -> temporizador para o bloqueio 
+    */
+    raw_terminal.c_cc[VMIN] = 0;
+    raw_terminal.c_cc[VTIME] = 0;
+    
     tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw_terminal); // atualização terminal para raw mode
 }
 
