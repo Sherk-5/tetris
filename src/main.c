@@ -1,5 +1,6 @@
 #include "terminal.h"
 #include "input.h"
+#include "framebuffer.h"
 
 #include <signal.h>
 #include <unistd.h>
