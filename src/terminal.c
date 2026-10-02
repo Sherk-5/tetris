@@ -2,12 +2,13 @@
 
 #include <unistd.h> // funções POSIX relacionadas ao SO: write(); STDOUT_FILENO; ssize_t?
 #include <termios.h> // API POSIX para configurar atributos e comportamentos do terminal
-//#include <signal.h> // permite lidar com Cntrl+C / SIGNIT 
+#include <sys/ioctl.h>
+//#include <signal.h> // permite lidar com Cntrl+C / SIGINT 
 
 
 
 
-/* strcut termios:
+/* struct termios:
     - input settings
     - output settings
     - controll settings
@@ -69,5 +70,21 @@ void terminal_show_cursor(void)
 {
     /*mostra o cursor*/
     write(STDOUT_FILENO, "\033[?25h", 6);
+}
+
+int terminal_get_size(int *width, int *height)
+{
+    struct winsize size; // estrutura do linux -> representar o tamanho do terminal (.ws_col e .ws_row)
+
+    // TIOCGWINSZ ->operação que obtem
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &size) == -1)
+    {
+        return -1;
+    }
+
+    *width = size.ws_col;
+    *heigth = size.WS_row;
+
+    return 0;
 }
 

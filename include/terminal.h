@@ -9,4 +9,6 @@ void terminal_clear(void);
 void terminal_hide_cursor(void);
 void terminal_show_cursor(void);
 
+int terminal_get_size(int *width, int *height);
+
 #endif
