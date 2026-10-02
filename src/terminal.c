@@ -76,14 +76,14 @@ int terminal_get_size(int *width, int *height)
 {
     struct winsize size; // estrutura do linux -> representar o tamanho do terminal (.ws_col e .ws_row)
 
-    // TIOCGWINSZ ->operação que obtem
+    // TIOCGWINSZ ->operação que obtem tamanhos da janela, valores serão colocados em size 
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &size) == -1)
     {
         return -1;
     }
 
     *width = size.ws_col;
-    *heigth = size.WS_row;
+    *height = size.ws_row;
 
     return 0;
 }

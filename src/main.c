@@ -3,6 +3,7 @@
 
 #include <signal.h>
 #include <unistd.h>
+#include <stdio.h> // pra debug : printfs
 
 static volatile sig_atomic_t running = 1;
 
@@ -15,6 +16,7 @@ void handle_sigint(int signal)
 
 int main(void)
 {
+/*
     signal(SIGINT, handle_sigint);
 
     terminal_init();
@@ -48,5 +50,22 @@ int main(void)
     terminal_cleanup();
     write(STDOUT_FILENO, "até logo ", 10);
 
+    return 0;
+*/
+
+    int width;
+    int height;
+
+    terminal_init();
+
+    if (terminal_get_size(&width, &height) == 1)
+    {
+        printf("Erro ao obter tamanho do terminal. \n");
+        terminal_cleanup();
+        return 1;
+    }
+
+    printf("Terminal: %d x %d \n", width, height);
+    terminal_cleanup();
     return 0;
 }
