@@ -59,14 +59,26 @@ int main(void)
 
     terminal_init();
 
-    if (terminal_get_size(&width, &height) == 1)
+    if (terminal_get_size(&width, &height) == -1)
     {
         printf("Erro ao obter tamanho do terminal. \n");
         terminal_cleanup();
         return 1;
     }
 
-    printf("Terminal: %d x %d \n", width, height);
+    Framebuffer fb;
+    if (framebuffer_init(&fb, width, height) == -1)
+    {
+        printf("erro ao criar framebuffer\n");
+        terminal_cleanup();
+        return 1;
+    }
+
+    framebuffer_clear(&fb, '.');
+    framebuffer_put(&fb, width/2, height/2, '█');
+
+    framebuffer_destroy(&fb);
     terminal_cleanup();
+
     return 0;
 }
