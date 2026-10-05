@@ -1,6 +1,7 @@
 #include "terminal.h"
 #include "input.h"
 #include "framebuffer.h"
+#include "renderer.h"
 
 #include <signal.h>
 #include <unistd.h>
@@ -74,8 +75,16 @@ int main(void)
         return 1;
     }
 
-    framebuffer_clear(&fb, '.');
-    framebuffer_put(&fb, width/2, height/2, '█');
+    for(int x = 0 ; x < width ; x++)
+    {
+        framebuffer_clear(&fb, '.');
+        framebuffer_put(&fb, x, height/2, '#'); // █
+
+        terminal_clear();
+        
+        renderer_draw(&fb);
+        usleep(50000);
+    }
 
     framebuffer_destroy(&fb);
     terminal_cleanup();
