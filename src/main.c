@@ -8,6 +8,16 @@
 #include <unistd.h>
 #include <stdio.h> // pra debug : printfs
 
+/* GAME LOOP
+    1 - update timer
+    2 - update input
+    3 - update game logic
+    4 - clear framebuffer
+    5 - render game
+    6 - draw frame
+    7 - repeat
+*/
+
 static volatile sig_atomic_t running = 1;
 
 void handle_sigint(int signal)
@@ -19,8 +29,8 @@ void handle_sigint(int signal)
 
 int main(void)
 {
-/*
     signal(SIGINT, handle_sigint);
+
 
     terminal_init();
     terminal_enable_raw_mode();
@@ -28,44 +38,14 @@ int main(void)
     terminal_clear();
     terminal_hide_cursor();
 
-    while(running)
-    {
-        InputAction action = input_update();
-
-        if (action == INPUT_UP)
-            write(STDOUT_FILENO, "cima ", 5);
-        else if (action == INPUT_DOWN)
-            write(STDOUT_FILENO, "baixo ", 6);
-        else if (action == INPUT_LEFT)
-            write(STDOUT_FILENO, "esquerda ", 9);
-        else if (action == INPUT_RIGHT)
-            write(STDOUT_FILENO, "direita ", 8);
-        else if (action == INPUT_QUIT)
-        {
-            write(STDOUT_FILENO, "xau ", 4);
-            break;
-        }
-
-        //usleep(16000); //16.67 ms ~= 60/fps
-    }
-
-    terminal_show_cursor();
-    terminal_cleanup();
-    write(STDOUT_FILENO, "até logo ", 10);
-
-    return 0;
-*/
-
-/* 2º
 
     int width;
     int height;
 
-    terminal_init();
-
     if (terminal_get_size(&width, &height) == -1)
     {
         printf("Erro ao obter tamanho do terminal. \n");
+        terminal_show_cursor();
         terminal_cleanup();
         return 1;
     }
@@ -74,36 +54,36 @@ int main(void)
     if (framebuffer_init(&fb, width, height) == -1)
     {
         printf("erro ao criar framebuffer\n");
+        terminal_show_cursor();
         terminal_cleanup();
         return 1;
     }
 
-    for(int x = 0 ; x < width ; x++)
-    {
-        framebuffer_clear(&fb, '.');
-        framebuffer_put(&fb, x, height/2, '#'); // █
-
-        terminal_clear();
-        
-        renderer_draw(&fb);
-        usleep(50000);
-    }
-
-    framebuffer_destroy(&fb);
-    terminal_cleanup();
-
-    return 0;
-
-    */
-
     Timer t;
     timer_init(&t);
+    input_init();
 
-    for(int i = 0; i < 10 ; i++)
+    double player_x = 0.0;
+    double player_speed = 30.0;
+
+    while (running)
     {
-        usleep(500000);
         timer_update(&t);
-        printf("delta: %.6f s \n elapsed: %.6f s\n", timer_get_delta(&t), timer_get_elapsed(&t));
+        double dt = timer_get_delta(&t);
+
+        input_update();
+
+        player_x += player_speed * dt; // moviemneno em função do tempo do delta com valor de velocidade
+
+        if (player_x >= width)
+        {
+            player_x = 0.0;
+        }
+
+        framebuffer_clear(&fb, '.');
+        framebuffer_put(&fb, (int)player_x, height / 2, '#');
+
+        renderer_draw(&fb);
     }
-    return 0;
+
 }
