@@ -2,6 +2,7 @@
 #include "input.h"
 #include "framebuffer.h"
 #include "renderer.h"
+#include "timer.h"
 
 #include <signal.h>
 #include <unistd.h>
@@ -55,6 +56,8 @@ int main(void)
     return 0;
 */
 
+/* 2º
+
     int width;
     int height;
 
@@ -89,5 +92,18 @@ int main(void)
     framebuffer_destroy(&fb);
     terminal_cleanup();
 
+    return 0;
+
+    */
+
+    Timer t;
+    timer_init(&t);
+
+    for(int i = 0; i < 10 ; i++)
+    {
+        usleep(500000);
+        timer_update(&t);
+        printf("delta: %.6f s \n elapsed: %.6f s\n", timer_get_delta(&t), timer_get_elapsed(&t));
+    }
     return 0;
 }
