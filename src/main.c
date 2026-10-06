@@ -73,12 +73,15 @@ int main(void)
 
         input_update();
 
-        player_x += player_speed * dt; // moviemneno em função do tempo do delta com valor de velocidade
+        player_x += player_speed * dt; // movimento em função do tempo do delta com valor de velocidade
 
         if (player_x >= width)
         {
             player_x = 0.0;
         }
+
+        terminal_clear();
+        terminal_hide_cursor();
 
         framebuffer_clear(&fb, '.');
         framebuffer_put(&fb, (int)player_x, height / 2, '#');
@@ -86,4 +89,6 @@ int main(void)
         renderer_draw(&fb);
     }
 
+    terminal_show_cursor();
+    terminal_cleanup();
 }
