@@ -3,39 +3,46 @@
 #include <unistd.h>
 
 static char last_key;
-InputAction action;
+//InputAction action;
 
 void input_init(void)
 {
 }
 
-InputAction input_update(void)
+void input_update(InputState *input)
 {
     char c;
 
-    ssize_t bytes_read = read(STDIN_FILENO, &c, 1);
+    input->up = 0;
+    input->down = 0;
+    input->left = 0;
+    input->right = 0;
+    input->quit = 0;
 
+    ssize_t bytes_read = read( STDIN_FILENO , &c, 1 );
     if (bytes_read <= 0) // não houve input
-        return INPUT_NONE;
+        return;
     switch (c) // recebemos uma tecla //write(STDOUT_FILENO, &c, 1); last_key = c;
     {
         case 'w':
-            return INPUT_UP;
-        
+            input->up = 1;
+            break;
+
         case 's':
-            return INPUT_DOWN;
+            input->down = 1;
+            break;
 
         case 'a':
-            return INPUT_LEFT;
+            input->left = 1;
+            break;
 
         case 'd':
-            return INPUT_RIGHT;
+            input->right = 1;
+            break;
 
         case 'q':
-            return INPUT_QUIT;
-
-        default:
-            return INPUT_NONE;
+            input->quit = 1;
+            break;
     }
 }
 

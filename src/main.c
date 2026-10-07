@@ -3,6 +3,8 @@
 #include "framebuffer.h"
 #include "renderer.h"
 #include "timer.h"
+#include "game.h"
+
 
 #include <signal.h>
 #include <unistd.h>
@@ -61,34 +63,33 @@ int main(void)
 
     Timer t;
     timer_init(&t);
+
+    InputState i;
     input_init();
 
-    double player_x = 0.0;
-    double player_speed = 30.0;
+    Game g;
+    game_init(&g, width, height);
 
     while (running)
     {
         timer_update(&t);
         double dt = timer_get_delta(&t);
 
-        input_update();
-
-        player_x += player_speed * dt; // movimento em função do tempo do delta com valor de velocidade
-
-        if (player_x >= width)
+        input_update(&i);
+        if (i.quit)
         {
-            player_x = 0.0;
+            running = 0;
         }
 
-        terminal_clear();
-        terminal_hide_cursor();
+        game_update( &g , dt, &i , width , height );
 
         framebuffer_clear(&fb, '.');
-        framebuffer_put(&fb, (int)player_x, height / 2, '#');
-
+        game_render( &g , &fb );
         renderer_draw(&fb);
     }
 
+    framebuffer_destroy(&fb);
     terminal_show_cursor();
     terminal_cleanup();
+    return 0;
 }

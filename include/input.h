@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+/*
 typedef enum
 {
     INPUT_NONE,
@@ -10,19 +11,18 @@ typedef enum
     INPUT_RIGHT,
     INPUT_QUIT
 } InputAction;
-
-/*
-typedef struct
-{
-    bool up;
-    bool down;
-    bool left;
-    bool right;
-    bool quit;    
-} InputState;
 */
 
+typedef struct
+{
+    int up;
+    int down;
+    int left;
+    int right;
+    int quit;
+} InputState;
+
 void input_init(void);
-InputAction input_update(void);
+void input_update(InputState *input);
 
 #endif 
